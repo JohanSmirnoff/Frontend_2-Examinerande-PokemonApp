@@ -29,11 +29,13 @@ const MonApp = () => {
     }
 
     return(
-        <div>
-            <h3>
-                Här är listan med alla pokemon, sök på antingen namn eller index 
-            </h3>
-        </div>
+        <main>
+            <div>
+                <h3>
+                    Här är listan med alla pokemon, sök på antingen namn eller index 
+                </h3>
+            </div>
+        </main>
     )
 }
 
