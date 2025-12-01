@@ -1,46 +1,110 @@
 import { useState, useEffect  } from "react"
+import PokemonDisplay from "../components/Pokemon/PokemonDisplay"
 // import Pokemon from "./Pokemon/Pokemon.jsx"
 
 
 // const [showPokemonApplication, setShowPokemonApplication] = useState(false)
 
+const monAPI = "https://pokeapi.co/api/v2/pokemon"
+
 const MonApp = () => {
-    const [monList, setPokemonList] = useState([])
+    const [monList, setMonList] = useState([])
     const [selectedMon, setSelectedMon] = useState("")
-    const [monData, setMonData] = useState(null)
+    const [monStats, setMonStats] = useState(null)
+    const [searchInput, setSearchInput] = useState("")
 
     useEffect(() => {
-        const getPokemon = async () => {
-            const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+        const getAPI = async () => {
+            const response = await fetch(`${monAPI}?limit=151`)
             const data = await response.json()
-            console.log(data)
+            setMonList(data.results)
             console.log(data.results)
-            setPokemonList(data.results)
         }
-        getPokemon()
+        getAPI()
     }, [])
 
-    const showMon = async () => {
-        if (!selectedMon) return
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${selectedMon}`)
+    const getMon = async (monKey) => {   //monKey lmao
+        if (!monKey) return
+        const response = await fetch(`${monAPI}/${monKey}`)
         const data = await response.json()
-        setMonData(data)
-        console.log(data)
+        setMonStats(data)
+        console.log({selectedMon})
+        console.log("Test jaaow", data) 
     }
+
+    const showMon = async () => {
+        getMon(selectedMon)
+    }
+
+    const filterMon = monList.filter((mon, index) => {
+        const nameSearch = mon.name.toLowerCase().includes(searchInput.toLowerCase())
+        const numberSearch = (index + 1).toString().includes(searchInput)
+        return nameSearch || numberSearch
+    })
+
+    //Funktion för att först söka med enter
+    const searchWithEnter = (e) => {
+        if (e.key !== "Enter") return
+        const num = parseInt(searchInput, 10)
+        if (index >= 0 && index < monList.length) {
+            const mon = monList[num - 1]
+            setSelectedMon(mon.name)
+            getMon(mon.name)
+        }
+    }
+
 
     return(
         <main>
-            <div>
-                <h3>
-                    Här är listan med alla pokemon, sök på antingen namn eller index 
-                </h3>
-            </div>
+            <section>
+                <div>
+                    <h2>
+                        Sök efter de 151 första Pokémon på antingen namn, index eller välj från listan.
+                    </h2>
+                </div>
+                <div>
+                    <input className="search-field"
+                    type="text"
+                    placeholder="Sök här (namn eller nummer)..."
+                    value={searchInput}
+                    onChange={(e) => {
+                        setSearchInput(e.currentTarget.value)
+                        setSelectedMon("")
+                        }
+                    }
+                    onKeyDown={searchWithEnter}/>
+                </div>
+                <div>
+                    <select name="mon"
+                    id="mon"
+                    value={selectedMon}
+                    onChange={(e) => setSelectedMon(e.target.value)}>
+                        <option value="">Eller välj från listan...</option>
+                    {monList.map((mon, index) => (
+                        <option key={mon.name} value={mon.name}>
+                            #{index + 1}: {mon.name.replace(mon.name[0], mon.name[0].toUpperCase())}
+                        </option>
+                        ))}
+                    </select>
+                    <button onClick={showMon} disabled={!selectedMon}>
+                        Visa vald Pokémon
+                    </button>
+                    <button>
+                        Rensaaaaaa 
+                    </button>
+                        <p>
+                            {/* Du har valt: #{filterMon}<br />{mon.name} */}
+                        </p>
+                </div>
+            </section>
+            <article>
+                <div>
+                    <PokemonDisplay monData={monStats} monList={monList}/>
+                </div>
+            </article>
         </main>
     )
 }
-
-
-
 
 
 

@@ -11,7 +11,7 @@ function App() {
     <Router>
       <nav>
         <Link to="/">
-          <button type="button" className="homeButton">Home</button>
+          <button type="button" className="home-button">Home</button>
         </Link>
       </nav>
       <Routes>
