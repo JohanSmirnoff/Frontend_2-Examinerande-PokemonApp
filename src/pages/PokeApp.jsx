@@ -1,9 +1,5 @@
 import { useState, useEffect  } from "react"
 import PokemonDisplay from "../components/Pokemon/PokemonDisplay"
-// import Pokemon from "./Pokemon/Pokemon.jsx"
-
-
-// const [showPokemonApplication, setShowPokemonApplication] = useState(false)
 
 const monAPI = "https://pokeapi.co/api/v2/pokemon"
 
@@ -25,11 +21,21 @@ const MonApp = () => {
 
     const getMon = async (monKey) => {   //monKey lmao
         if (!monKey) return
-        const response = await fetch(`${monAPI}/${monKey}`)
-        const data = await response.json()
-        setMonStats(data)
-        console.log({selectedMon})
-        console.log("Test jaaow", data) 
+        try {
+            const response = await fetch(`${monAPI}/${monKey.toLowerCase()}`)
+            if (!response.ok) {
+                console.log("Ingen mon hittad", monKey, response.status)
+                setMonStats(null)
+                return
+            }
+            const data = await response.json()
+            setMonStats(data)
+            console.log({selectedMon})
+            console.log("Test jaaow", data) 
+        } catch (error) {
+            alert("General knas")
+            console.error("Knas bror", error)
+        }
     }
 
     const showMon = async () => {
@@ -45,14 +51,29 @@ const MonApp = () => {
     //Funktion för att först söka med enter
     const searchWithEnter = (e) => {
         if (e.key !== "Enter") return
-        const num = parseInt(searchInput, 10)
-        if (index >= 0 && index < monList.length) {
-            const mon = monList[num - 1]
-            setSelectedMon(mon.name)
-            getMon(mon.name)
+        const trimmedInput = searchInput.trim().toLowerCase()
+        if (!trimmedInput) return 
+        const num = Number(trimmedInput)
+        if (!Number.isNaN(num)) {
+            const index = num - 1
+            if (index >= 0 && index < monList.length) {
+                const mon = monList[index]
+                setSelectedMon(mon.name)
+                getMon(mon.name)
+                return
+            }
         }
-    }
 
+        const monByName = monList.find(
+            mon => mon.name.toLowerCase() === trimmedInput)
+        
+        if (monByName) {
+            setSelectedMon(monByName.name)
+            getMon(monByName.name)
+            return
+        }
+
+    }
 
     return(
         <main>
@@ -68,8 +89,9 @@ const MonApp = () => {
                     placeholder="Sök här (namn eller nummer)..."
                     value={searchInput}
                     onChange={(e) => {
-                        setSearchInput(e.currentTarget.value)
-                        setSelectedMon("")
+                        const value = e.currentTarget.value
+                        setSelectedMon(value)
+                        // getMon(value)
                         }
                     }
                     onKeyDown={searchWithEnter}/>
@@ -99,7 +121,7 @@ const MonApp = () => {
             </section>
             <article>
                 <div>
-                    <PokemonDisplay monData={monStats} monList={monList}/>
+                    <PokemonDisplay monData={monStats} monList={filterMon}/>
                 </div>
             </article>
         </main>

@@ -23,7 +23,7 @@ const PokemonDisplay = ({ monData, monList }) => {
             <p>Type: {monData.types.map(typeOfMon => typeOfMon.type.name.replace(typeOfMon.type.name[0], typeOfMon.type.name[0].toUpperCase())).join(" / ")}</p>
             <span className="height">Height: <span className="mon-height">{monData.height / 10} meters</span></span>
             <br />
-            <span className="weight">Weight: <span className="mon-weight">{monData.weight / 10} kg</span></span>    
+            <span className="weight">Weight: <span className="mon-weight">{monData.weight / 10} kg</span></span>
         </div>
     )
 }
