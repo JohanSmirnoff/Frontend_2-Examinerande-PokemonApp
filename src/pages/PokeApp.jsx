@@ -14,7 +14,6 @@ const MonApp = () => {
             const response = await fetch(`${monAPI}?limit=151`)
             const data = await response.json()
             setMonList(data.results)
-            console.log(data.results)
         }
         getAPI()
     }, [])
@@ -31,17 +30,15 @@ const MonApp = () => {
         try {
             const response = await fetch(`${monAPI}/${monKey.toLowerCase()}`)
             if (!response.ok) {
-                console.log("Ingen mon hittad bre", monKey, response.status)
+                console.log("Ingen pokemon hittad i getMon bre", monKey, "Statuuus: ", response.status)
                 setMonStats(null)
                 return
             }
             const data = await response.json()
             setMonStats(data)
-            console.log({selectedMon})
-            console.log("Test jaaow", data) 
         } catch (error) {
             alert("Något gick fel...")
-            console.error("Knas bror", error)
+            console.error("Knas bror... Error: ", error)
         }
     }
 
@@ -75,7 +72,7 @@ const MonApp = () => {
             getMon(mon.name)
             return
         } else if (filterMon.length > 1) {
-            alert("Fler än en Pokémon hittades, skriv in helt namn, nummer eller välj från listan.")
+            alert("Fler än en Pokémon hittades, skriv in ett helt namn, nummer eller välj från listan.")
             return
         } else {
             alert(`Ingen Pokémon hittades med: ${searchInput}`)
