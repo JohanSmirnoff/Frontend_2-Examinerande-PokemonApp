@@ -30,7 +30,6 @@ const PokemonDisplay = ({ monData, monList, clickMon, backFromMon }) => {
                 <img src={monData.sprites.front_default} alt={monData.name} className="chosen-mon-pic"/>
             </div>
             <div className="info-container">
-                {/* <p>Type: {monData.types.map(typeOfMon => typeOfMon.type.name.replace(typeOfMon.type.name[0], typeOfMon.type.name[0].toUpperCase())).join(" / ")}</p> */}
                 <p className="stat-info">Type: </p>
                 <span>{monData.types.map(typeOfMon => bigLetter(typeOfMon.type.name)).join(" / ")}</span>
                 <br />
