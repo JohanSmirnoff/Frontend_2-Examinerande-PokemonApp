@@ -1,22 +1,23 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import './App.css'
-import HomePage from "./pages/Home"
-import PokeApp from "./pages/PokeApp"
-
+import Home from "./pages/HomePage"
+import PokeApp from "./pages/PokeAppPage"
 
 function App() {
 
   return (
     <Router>
-      <nav>
-        <Link to="/">
-          <button type="button" className="home-button">Home</button>
-        </Link>
+      <nav id="nav-bar">
+        <div className="nav-container">
+          <Link to="/">
+            <img src="../public/pokeball2.svg" alt="pokeball-icon" id="pokeball-icon"/>
+          </Link>
+        </div>
       </nav>
       <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/PokeApp" element={<PokeApp />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/PokeAppPage" element={<PokeApp />} />
       </Routes>
     </Router>
   )
