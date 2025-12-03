@@ -187,7 +187,8 @@ h1 {
   flex-wrap: wrap;
   justify-content: space-between;
   text-align: center;
-  min-width: 70vw;
+  max-width: 1000px;
+  margin: 2rem auto;
   padding: 1.5rem;
 }
 
@@ -254,7 +255,7 @@ p {
 
                             */
   
-@media (max-width: 940px) {
+@media (max-width: 900px) {
   
   .search-container {
     width: 90%;
