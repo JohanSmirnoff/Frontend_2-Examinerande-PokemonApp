@@ -42,7 +42,7 @@ const MonApp = () => {
         }
     }
 
-    // Hitta och visa rätt pokemon
+    // Hitta och visa rätt pokemon med antingen namn eller index
     const searchForMon = () => {
         const trimmedInput = searchInput.trim().toLowerCase()
         if (!trimmedInput) return 

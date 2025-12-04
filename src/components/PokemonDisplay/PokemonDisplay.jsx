@@ -20,7 +20,7 @@ const PokemonDisplay = ({ monData, monList, clickMon, backFromMon }) => {
         )
     }
 
-    if ( monData) console.log("Letar efter rätt grejer i objektet lol", monData)
+    if (monData) console.log("Letar efter rätt grejer i objektet lol", monData)
 
     const id = getMonIndex(monData.species.url)
     return (
@@ -53,7 +53,6 @@ const PokemonDisplay = ({ monData, monList, clickMon, backFromMon }) => {
                 <button className="back-button" onClick={backFromMon}>Tillbaka</button>
             </div>
         </div>
-    
     )
 }
 
